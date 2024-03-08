@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Inter } from 'next/font/google';

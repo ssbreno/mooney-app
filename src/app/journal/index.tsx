@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useState } from 'react';
 import { HtmlDocument, JournalEntry } from '../../interfaces/journal';
 import { useMutation } from 'react-query';
@@ -24,34 +24,41 @@ export default function JournalPage() {
       };
       mutation.mutate(newEntry, {
         onSuccess: () => {
-          setEntries(currentEntries => [...currentEntries, newEntry]);
+          setEntries((currentEntries) => [...currentEntries, newEntry]);
           setEntry('');
         },
-        onError: (error) => {
-        },
+        onError: (error) => {},
       });
     }
   };
 
   const useSaveHtmlDocumentMutation = () => {
-    return useMutation((documentData: HtmlDocument) => axios.post('/api/save-html', documentData));
+    return useMutation((documentData: HtmlDocument) =>
+      axios.post('/api/save-html', documentData),
+    );
   };
-  
-  const { mutate: saveHtmlDocument, isLoading, isError } = useSaveHtmlDocumentMutation();
-  
-    const handleShare = () => {
-      const htmlEntries = entries.map(entry => processMarkup(entry.text)).join('<br>');
-      console.log('htmlEntries:', entries)
-      const htmlDocument = `<html><body>${htmlEntries}</body></html>`;
-  
-      saveHtmlDocument({ htmlDocument }, {
-        onSuccess: () => {
-        },
-        onError: (error) => {
-        },
-      });
-    };
-  
+
+  const {
+    mutate: saveHtmlDocument,
+    isLoading,
+    isError,
+  } = useSaveHtmlDocumentMutation();
+
+  const handleShare = () => {
+    const htmlEntries = entries
+      .map((entry) => processMarkup(entry.text))
+      .join('<br>');
+    console.log('htmlEntries:', entries);
+    const htmlDocument = `<html><body>${htmlEntries}</body></html>`;
+
+    saveHtmlDocument(
+      { htmlDocument },
+      {
+        onSuccess: () => {},
+        onError: (error) => {},
+      },
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -66,13 +73,13 @@ export default function JournalPage() {
           onChange={(e) => setEntry(e.target.value)}
         ></textarea>
         <div className="flex justify-end space-x-4 mt-4">
-          <button 
+          <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={handleSave}
           >
             Save
           </button>
-          <button 
+          <button
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
             onClick={handleShare}
             disabled={isLoading}

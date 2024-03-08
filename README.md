@@ -1,3 +1,6 @@
+![image](https://github.com/ssbreno/mooney-app/assets/8092325/1838c235-87ba-4389-af05-ece769f268a2)
+
+
 ## Introduction
 
 Mooney Journal App

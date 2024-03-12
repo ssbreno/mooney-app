@@ -1,9 +1,10 @@
 'use client';
 import { useState } from 'react';
-import { HtmlDocument, JournalEntry } from '../../interfaces/journal';
+import { JournalEntry } from '../../interfaces/journal';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 import { processMarkup } from '../../utils/markup';
+import { useSaveHtmlDocumentMutation } from './hooks/save-html.hooks';
 
 export default function JournalPage() {
   const [entry, setEntry] = useState('');
@@ -12,7 +13,6 @@ export default function JournalPage() {
   const mutation = useMutation((newEntry: JournalEntry) => {
     return axios.post('/api/journal', {
       content: newEntry.text,
-      createdAt: newEntry.date,
     });
   });
 
@@ -20,22 +20,18 @@ export default function JournalPage() {
     if (entry.trim() !== '') {
       const newEntry = {
         text: entry,
-        date: new Date().toISOString(),
       };
       mutation.mutate(newEntry, {
         onSuccess: () => {
           setEntries((currentEntries) => [...currentEntries, newEntry]);
           setEntry('');
+          alert('Entry saved successfully');
         },
-        onError: (error) => {},
+        onError: (error) => {
+          console.error('Error saving the entry:', error);
+        },
       });
     }
-  };
-
-  const useSaveHtmlDocumentMutation = () => {
-    return useMutation((documentData: HtmlDocument) =>
-      axios.post('/api/save-html', documentData),
-    );
   };
 
   const {
@@ -48,14 +44,17 @@ export default function JournalPage() {
     const htmlEntries = entries
       .map((entry) => processMarkup(entry.text))
       .join('<br>');
-    console.log('htmlEntries:', entries);
     const htmlDocument = `<html><body>${htmlEntries}</body></html>`;
 
     saveHtmlDocument(
       { htmlDocument },
       {
-        onSuccess: () => {},
-        onError: (error) => {},
+        onSuccess: () => {
+          alert('Document saved successfully');
+        },
+        onError: (error) => {
+          console.error('Error saving the document:', error);
+        },
       },
     );
   };

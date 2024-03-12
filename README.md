@@ -24,5 +24,3 @@ To run the Mooney Journal App project on your local machine, follow these steps:
 4. **Start Containers**: Execute `docker-compose up -d` to start the containers in detached mode.
 5. **Run Migrations**: Use `npx prisma generate dev` and `npx prisma generate deploy` to run migrations.
 6. **Start the Application**: Use `npm run dev` to start the application.
-
-## Conclusion

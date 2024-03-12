@@ -12,19 +12,18 @@ export default function JournalPage() {
 
   const mutation = useMutation((newEntry: JournalEntry) => {
     return axios.post('/api/journal', {
-      content: newEntry.text,
+      content: newEntry.content,
     });
   });
 
   const handleSave = () => {
     if (entry.trim() !== '') {
       const newEntry = {
-        text: entry,
+        content: entry,
       };
       mutation.mutate(newEntry, {
         onSuccess: () => {
           setEntries((currentEntries) => [...currentEntries, newEntry]);
-          setEntry('');
           alert('Entry saved successfully');
         },
         onError: (error) => {
@@ -42,7 +41,7 @@ export default function JournalPage() {
 
   const handleShare = () => {
     const htmlEntries = entries
-      .map((entry) => processMarkup(entry.text))
+      .map((entry) => processMarkup(entry.content))
       .join('<br>');
     const htmlDocument = `<html><body>${htmlEntries}</body></html>`;
 

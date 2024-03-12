@@ -1,5 +1,5 @@
 export interface JournalEntry {
-  text: string;
+  content: string;
 }
 
 export interface HtmlDocument {
